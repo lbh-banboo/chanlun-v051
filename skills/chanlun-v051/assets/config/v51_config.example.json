@@ -1,0 +1,9 @@
+{
+  "start_date": "2026-01-05",
+  "nav0": 200000.0,
+  "stage_sim": 1.0,
+  "stage_real": 0,
+  "max_hold_days": 120,
+  "m30_base_end": "2025-12-31",
+  "note": "start_date＝实时回测起点；nav0＝虚拟本金（1.5a 天花板、仓位都按它算）；stage_sim＝记账按满额口径(1.0)；stage_real＝真实下单系数（实时回测期必须是 0）；m30_base_end＝baostock 历史库（含 data/m30_recent）覆盖到的最后一个交易日，其后的 K 线由实时扫描写入 live/state/m30_ext；max_hold_days＝持满多少个交易日到期卖出（V5.1 为 120）"
+}

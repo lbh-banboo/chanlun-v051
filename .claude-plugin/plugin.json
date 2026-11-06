@@ -1,0 +1,10 @@
+{
+  "name": "chanlun-v051",
+  "description": "A 股缠论 V5.1 实时纸面回测与研究工具箱：30 分钟线段引擎、八道入场闸门、四档市场状态、账户熔断、股票筛选（质地榜/重点池/1.5a）、定时任务模板、数据维护与回测证据。仅供研究与模拟，不构成投资建议，不自动下真单。",
+  "version": "1.0.0",
+  "author": {
+    "name": "chanlun-v051 contributors"
+  },
+  "license": "MIT",
+  "keywords": ["a-share", "chan-theory", "backtest", "paper-trading", "quant", "skill"]
+}

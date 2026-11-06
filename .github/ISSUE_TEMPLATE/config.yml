@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 安全问题 / Security issue
+    url: https://github.com/lbh-banboo/chanlun-v051/security/advisories/new
+    about: 泄露密钥、可被利用的脚本等请走私密通道，不要公开提 Issue
+  - name: 免责声明 / Disclaimer
+    url: https://github.com/lbh-banboo/chanlun-v051/blob/main/DISCLAIMER.md
+    about: 本项目是研究与模拟工具，不构成投资建议；不提供荐股、带单或收益承诺

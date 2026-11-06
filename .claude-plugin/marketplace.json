@@ -1,0 +1,14 @@
+{
+  "name": "chanlun-v051",
+  "description": "A 股缠论 V5.1 实时纸面回测与研究工具箱（Agent Skill）",
+  "owner": {
+    "name": "chanlun-v051 contributors"
+  },
+  "plugins": [
+    {
+      "name": "chanlun-v051",
+      "source": "./",
+      "description": "A 股缠论 V5.1 实时纸面回测、股票筛选、定时任务与回测证据。仅供研究与模拟，不构成投资建议。"
+    }
+  ]
+}

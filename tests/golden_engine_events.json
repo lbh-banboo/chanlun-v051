@@ -1,0 +1,282 @@
+{
+ "0": {
+  "fixed": 1,
+  "n": 13,
+  "n_units": 79,
+  "revoked": 0,
+  "sha": "d2ea2a06a8918818"
+ },
+ "1": {
+  "fixed": 2,
+  "n": 14,
+  "n_units": 76,
+  "revoked": 0,
+  "sha": "b4d4c282522ea410"
+ },
+ "10": {
+  "fixed": 20,
+  "n": 12,
+  "n_units": 77,
+  "revoked": 1,
+  "sha": "8a57fcfd6dd5ee86"
+ },
+ "11": {
+  "fixed": 3,
+  "n": 16,
+  "n_units": 68,
+  "revoked": 0,
+  "sha": "65db6ed276072640"
+ },
+ "12": {
+  "fixed": 0,
+  "n": 18,
+  "n_units": 87,
+  "revoked": 0,
+  "sha": "32fa1e4af6db6b75"
+ },
+ "13": {
+  "fixed": 8,
+  "n": 12,
+  "n_units": 63,
+  "revoked": 1,
+  "sha": "6c497b3d1dac1011"
+ },
+ "14": {
+  "fixed": 2,
+  "n": 17,
+  "n_units": 83,
+  "revoked": 1,
+  "sha": "bba8f1535a430be4"
+ },
+ "15": {
+  "fixed": 26,
+  "n": 21,
+  "n_units": 75,
+  "revoked": 3,
+  "sha": "6e408718eace9aac"
+ },
+ "16": {
+  "fixed": 1,
+  "n": 11,
+  "n_units": 68,
+  "revoked": 1,
+  "sha": "a72e84b188ff9f72"
+ },
+ "17": {
+  "fixed": 2,
+  "n": 8,
+  "n_units": 50,
+  "revoked": 2,
+  "sha": "347094b5097b4f3f"
+ },
+ "18": {
+  "fixed": 4,
+  "n": 11,
+  "n_units": 72,
+  "revoked": 1,
+  "sha": "686a1d356a90c7a9"
+ },
+ "19": {
+  "fixed": 10,
+  "n": 15,
+  "n_units": 75,
+  "revoked": 3,
+  "sha": "0fc260ae05ca92ca"
+ },
+ "2": {
+  "fixed": 15,
+  "n": 14,
+  "n_units": 80,
+  "revoked": 0,
+  "sha": "6ae2dbd8a3b6713a"
+ },
+ "20": {
+  "fixed": 4,
+  "n": 12,
+  "n_units": 76,
+  "revoked": 1,
+  "sha": "ea4ed6fd1fd2b87c"
+ },
+ "21": {
+  "fixed": 5,
+  "n": 9,
+  "n_units": 53,
+  "revoked": 1,
+  "sha": "55d36a4dcbbe05a4"
+ },
+ "22": {
+  "fixed": 1,
+  "n": 12,
+  "n_units": 73,
+  "revoked": 1,
+  "sha": "dc817f542cf7d662"
+ },
+ "23": {
+  "fixed": 2,
+  "n": 18,
+  "n_units": 73,
+  "revoked": 3,
+  "sha": "e57881e59d29051b"
+ },
+ "24": {
+  "fixed": 1,
+  "n": 8,
+  "n_units": 72,
+  "revoked": 0,
+  "sha": "8054b819ffbefca1"
+ },
+ "25": {
+  "fixed": 0,
+  "n": 11,
+  "n_units": 64,
+  "revoked": 0,
+  "sha": "3e563abf429fd950"
+ },
+ "26": {
+  "fixed": 0,
+  "n": 14,
+  "n_units": 74,
+  "revoked": 0,
+  "sha": "016c8492f5826ff1"
+ },
+ "27": {
+  "fixed": 0,
+  "n": 15,
+  "n_units": 71,
+  "revoked": 0,
+  "sha": "d5658c6342a7740d"
+ },
+ "28": {
+  "fixed": 0,
+  "n": 20,
+  "n_units": 76,
+  "revoked": 2,
+  "sha": "0310ca16e3ef7e15"
+ },
+ "29": {
+  "fixed": 3,
+  "n": 13,
+  "n_units": 88,
+  "revoked": 1,
+  "sha": "12bf78832794a06f"
+ },
+ "3": {
+  "fixed": 8,
+  "n": 10,
+  "n_units": 60,
+  "revoked": 1,
+  "sha": "12e73b1c44441b6a"
+ },
+ "30": {
+  "fixed": 0,
+  "n": 9,
+  "n_units": 71,
+  "revoked": 1,
+  "sha": "e6e8ab17155303b8"
+ },
+ "31": {
+  "fixed": 12,
+  "n": 12,
+  "n_units": 88,
+  "revoked": 2,
+  "sha": "06cb67f4bf194e06"
+ },
+ "32": {
+  "fixed": 1,
+  "n": 13,
+  "n_units": 78,
+  "revoked": 0,
+  "sha": "2f8440b5eee8f8bf"
+ },
+ "33": {
+  "fixed": 1,
+  "n": 14,
+  "n_units": 81,
+  "revoked": 1,
+  "sha": "5bd48a0084fb1c4c"
+ },
+ "34": {
+  "fixed": 1,
+  "n": 7,
+  "n_units": 60,
+  "revoked": 1,
+  "sha": "2c369969fabb5815"
+ },
+ "35": {
+  "fixed": 0,
+  "n": 14,
+  "n_units": 80,
+  "revoked": 1,
+  "sha": "12a4572ff2ad7a4e"
+ },
+ "36": {
+  "fixed": 2,
+  "n": 9,
+  "n_units": 69,
+  "revoked": 0,
+  "sha": "dd2190d20d85f274"
+ },
+ "37": {
+  "fixed": 0,
+  "n": 14,
+  "n_units": 81,
+  "revoked": 0,
+  "sha": "8b4315044ff05383"
+ },
+ "38": {
+  "fixed": 0,
+  "n": 11,
+  "n_units": 83,
+  "revoked": 0,
+  "sha": "a6546dad905dc396"
+ },
+ "39": {
+  "fixed": 1,
+  "n": 10,
+  "n_units": 70,
+  "revoked": 2,
+  "sha": "7f52681b343bc9ef"
+ },
+ "4": {
+  "fixed": 1,
+  "n": 15,
+  "n_units": 70,
+  "revoked": 0,
+  "sha": "8f85bd0606566aa7"
+ },
+ "5": {
+  "fixed": 0,
+  "n": 11,
+  "n_units": 67,
+  "revoked": 0,
+  "sha": "eab4cb9f17756495"
+ },
+ "6": {
+  "fixed": 0,
+  "n": 13,
+  "n_units": 64,
+  "revoked": 0,
+  "sha": "714866fa8ec4a94d"
+ },
+ "7": {
+  "fixed": 12,
+  "n": 13,
+  "n_units": 75,
+  "revoked": 2,
+  "sha": "2e890a021b77a6f7"
+ },
+ "8": {
+  "fixed": 4,
+  "n": 9,
+  "n_units": 67,
+  "revoked": 1,
+  "sha": "def5568ecd1a5617"
+ },
+ "9": {
+  "fixed": 5,
+  "n": 15,
+  "n_units": 77,
+  "revoked": 1,
+  "sha": "4274e742f8b01070"
+ }
+}

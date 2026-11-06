@@ -1,0 +1,28 @@
+#!/bin/sh
+# 系统 cron 版（不用助手的人）。把路径改成你自己的，然后：crontab -e 粘进去。
+# 也可以让 install_tasks.py --crontab 自动生成下面这些行。
+#
+# 注意
+#   · cron 的时间是机器本地时间；机器要在这些时间点是开着、不睡眠的（macOS 可用 launchd + caffeinate，或 pmset 设定唤醒）
+#   · cron 环境变量很少：脚本里用绝对路径，并显式 export V51_HOME
+#   · 脚本版没有"助手汇报"：信号看 live/reports/V51_latest.md 与 live/state/signals_log.jsonl；
+#     想要通知，在 crontab 行末加 `|| osascript -e 'display notification "v51 失败" with title "V5.1"'` 或接你自己的推送
+#   · 同一时刻不要让两个扫描同时写同一个账本：关注池与重点池的账本目录不同，可以错开 5 分钟并行
+#   · 盘中扫描 10:02 之类的时刻要等行情源把 K 线推出来（滞后几秒到几十秒）；v51_scan 自带 +8 秒的收盘判定缓冲
+#
+# ------------------------------------------------------------------------------------------------
+V51_HOME=/Users/YOU/a-share-v51
+PY=/usr/bin/python3
+S=/Users/YOU/.claude/skills/chanlun-v051/scripts
+
+# 关注池：盘中 10:02 10:32 11:02 11:32 14:02 14:32 / 13:32 / 15:02
+2,32 10,11,14 * * 1-5  $PY $S/v51_scan.py >> $V51_HOME/live/cron_scan.log 2>&1
+32 13 * * 1-5          $PY $S/v51_scan.py >> $V51_HOME/live/cron_scan.log 2>&1
+2 15 * * 1-5           $PY $S/v51_scan.py >> $V51_HOME/live/cron_scan.log 2>&1
+
+# 收盘流程 18:35：日线增量 → 档位 → 日报 → （可选）TRIN
+35 18 * * 1-5          $PY $S/close_pipeline.py >> $V51_HOME/live/cron_close.log 2>&1 && $PY $S/v51_scan.py >> $V51_HOME/live/cron_close.log 2>&1 && $PY $S/trin_daily.py >> $V51_HOME/live/cron_close.log 2>&1
+
+# 重点池（可选，晚 5 分钟）
+7,37 10,11,14 * * 1-5  $PY $S/v51_scan_focus.py >> $V51_HOME/live/cron_scan_focus.log 2>&1
+7 15 * * 1-5           $PY $S/v51_scan_focus.py >> $V51_HOME/live/cron_scan_focus.log 2>&1

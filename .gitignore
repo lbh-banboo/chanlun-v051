@@ -1,0 +1,49 @@
+# ---- 行情与账本（体量大、且是你自己的数据，不进仓库）----
+data/
+live/
+pipeline/
+journal/
+tasks_rendered/
+*.csv
+*.csv.gz
+*.parquet
+
+# ---- 密钥与本机配置（绝对不要提交）----
+.env
+.env.*
+*.key
+*.pem
+secrets/
+config/*.local.json
+mx_apikey
+.mx_apikey
+tavily.key
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---- 系统与编辑器 ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# ---- 打包产物 ----
+dist/
+build/
+*.skill
+*.zip
+*.tar.gz
+
+# 例外：仓库自带的小型示例/测试夹具要保留
+!skills/chanlun-v051/assets/**
+!tests/golden_engine_events.json
