@@ -11,7 +11,7 @@
 git clone https://github.com/lbh-banboo/chanlun-v051.git && cd chanlun-v051
 python3 -m venv .venv && . .venv/bin/activate
 pip install pandas numpy          # 下载 30 分钟历史才需要 baostock
-python3 tests/run_all.py          # 必须全绿；不联网、约 30 秒
+python3 tests/run_all.py          # 必须全绿；不联网、约 8–10 分钟
 ```
 
 不要在仓库里放任何行情数据、账本、密钥或你自己的持仓。`.gitignore` 已经挡住 `data/ live/ pipeline/ journal/` 和常见密钥文件，`tests/test_repo_hygiene.py` 会扫描通用密钥形态、个人路径形态与示例池命名契约（不保存具体词表）。

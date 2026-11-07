@@ -5,6 +5,20 @@
 
 > 任何会改变信号的改动都必须：先走预登记 → 更新 `tests/golden_engine_events.json` 并在此处写明理由 → 提升主版本号。
 
+## [1.0.1] — 2026-11-07
+
+对应 GitHub Release `v1.0.1`。**不改变交易规则、引擎行为或任何信号**（修订版本）；
+本次只修发布链路与文档，`.skill` 的功能不变。
+
+### 修复
+
+- **CI**：`test` 矩阵的 `actions/setup-python` 原带 `cache: pip`，但仓库没有
+  `requirements.txt` / `pyproject.toml` 可计算缓存键，导致 4 个 Python 版本 job
+  全部在准备阶段失败、测试步骤被跳过。已移除该选项（依赖版本约束直接写在 `pip install` 里）。
+- **文档**：多处把全套自检写成「约 30 秒」，实测约 8–10 分钟（TRIN 健康检查最耗时）；
+  README 的 Python 兼容性说明改为与 CI 矩阵一致的实测口径。
+- **版本标识**：`plugin.json` 与 `SKILL.md` 的 `metadata.version` 对齐到 `1.0.1`。
+
 ## [1.0.0] — 2026-11-04
 
 首个公开版本。由一套研究工具链整理、通用化而成。

@@ -41,7 +41,7 @@ git clone https://github.com/lbh-banboo/chanlun-v051.git
 cd chanlun-v051
 pip install pandas numpy                       # 30 分钟历史下载另需：pip install baostock
 
-python3 tests/run_all.py                       # 先验证环境：全部自检，不联网，约 30 秒
+python3 tests/run_all.py                       # 先验证环境：全部自检，不联网，约 8–10 分钟
 
 export V51_HOME=~/a-share-v51
 python3 skills/chanlun-v051/scripts/init_workspace.py --home $V51_HOME --nav 200000
@@ -123,7 +123,7 @@ python3 $S/pool_watch.py                       # 只读：现在谁离买点近
 ## 测试
 
 ```bash
-python3 tests/run_all.py          # 全部（约 30 秒）
+python3 tests/run_all.py          # 全部（约 8–10 分钟；TRIN 健康检查最耗时）
 python3 tests/run_all.py --fast   # 跳过端到端
 ```
 
@@ -164,8 +164,8 @@ cd skills && zip -r ../chanlun-v051.skill chanlun-v051 -x '*/__pycache__/*' '*.p
 
 | 项 | 状态 |
 |---|---|
-| Python 3.10 | 本地完整验证（全部自检通过） |
-| Python 3.9 / 3.11 / 3.12 | 代码按 3.9 语法树静态检查通过（无 `X\|Y` 注解、无 `match`、无 `zip(strict=)` 等 3.10+ 特性）；**真实运行由 CI 矩阵验证**（见 `.github/workflows/ci.yml`），首次推送后请看 Actions 结果 |
+| Python 3.9 / 3.10 / 3.11 / 3.12 | 由 GitHub Actions CI 矩阵**真实运行全套自检**（见 `.github/workflows/ci.yml`）；结果见仓库 Actions 页面 |
+| 本机实测 | Python 3.9.6 与 3.11 全套 6/6 通过；代码按 3.9 语法树静态检查通过（无 `X\|Y` 注解、无 `match`、无 `zip(strict=)` 等 3.10+ 特性） |
 | macOS | 已在 macOS 验证；`bg_run.py` 在 macOS 上自动套 `caffeinate` |
 | Linux | 自检在 Linux 容器内运行通过 |
 | Windows | **未验证**。路径处理用 `os.path`，但 `bg_run.py`（`start_new_session`）与 cron 示例是 POSIX 向的，Windows 请用 WSL |

@@ -4,7 +4,7 @@ description: A 股「稳健波段」V5.1 缠论交易系统的实时回测与研
 license: MIT
 compatibility: 需要 Python 3.9+ 与 pandas、numpy；可联网访问新浪/东财/搜狐行情与 baostock（30 分钟历史）；质地榜取数需东方财富妙想 API 密钥（可选）。定时任务模板面向能执行本机脚本的助手（如 Claude 桌面版定时任务），也可改用系统 cron。
 metadata:
-  version: "1.0.0"
+  version: "1.0.1"
   market: "A-share"
   language: "zh-CN"
   upstream-manual: "稳健波段交易系统 V5.1（缠论买卖点交易流程）"
@@ -78,7 +78,7 @@ python3 scripts/v51_scan.py                                              # 实�
 python3 scripts/v51_scan.py --no-fetch --asof "YYYY-MM-DD HH:MM" --start YYYY-MM-DD --tag chk   # 历史回放自检，不碰正式账本
 python3 scripts/pool_watch.py && python3 scripts/pool_watch_report.py $V51_HOME/live/watch/pool_watch_*.json   # "现在离买点多近"
 python3 scripts/install_tasks.py --home $V51_HOME --address 你           # 渲染定时任务提示词
-python3 tests/run_all.py                                                 # 全部自检（不联网，约 30 秒）
+python3 tests/run_all.py                                                 # 全部自检（不联网，约 8–10 分钟）
 ```
 
 ## 回答"今天有没有信号 / 能买什么"的标准做法
