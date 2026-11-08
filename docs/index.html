@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chanlun-v051 — A 股缠论 V5.1 机械化引擎</title>
+<meta name="description" content="把缠论买卖点机械化，跑在 A 股关注池上。规则可复现、无前视、纸面记账、证据公开。同时是可被 AI 助手加载的 Agent Skill。">
+<meta property="og:title" content="chanlun-v051 — A 股缠论 V5.1 机械化引擎">
+<meta property="og:description" content="可复现、无前视的 30 分钟买卖点引擎 + 实时纸面回测工具箱。仅供研究，不构成投资建议。">
+<meta property="og:image" content="https://lbh-banboo.github.io/chanlun-v051/assets/social-preview.png">
+<style>
+  :root{
+    --bg:#0b1015; --panel:#0f1620; --line:rgba(255,255,255,.09);
+    --fg:#e6edf3; --mut:#8b949e; --dim:#6e7681;
+    --red:#e5484d; --grn:#3fb950;
+    --mono:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+    line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  .grid-bg{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+    background-size:44px 44px;
+    mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 100%);
+    -webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 100%);
+  }
+  .wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 24px}
+
+  /* ---------- hero ---------- */
+  header{padding:88px 0 64px;text-align:center}
+  .kicker{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;
+    color:var(--dim);text-transform:uppercase;
+    border:1px solid var(--line);border-radius:999px;padding:7px 16px;
+  }
+  .kicker .d{width:7px;height:7px;border-radius:50%;background:var(--red)}
+  h1{
+    margin-top:26px;font-family:var(--mono);
+    font-size:clamp(38px,7vw,68px);font-weight:700;letter-spacing:-.035em;line-height:1.05;
+  }
+  h1 .cursor{display:inline-block;width:11px;height:52px;background:var(--red);margin-left:14px;vertical-align:-6px;border-radius:1px}
+  .lede{
+    margin:24px auto 0;max-width:720px;font-size:clamp(16px,2.2vw,19px);
+    color:#c9d1d9;line-height:1.75;
+  }
+  .lede b{color:#fff;font-weight:600}
+  .lede .u{border-bottom:2px solid rgba(229,72,77,.5);padding-bottom:1px}
+
+  .cta{margin-top:36px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:13px 24px;border-radius:8px;font-size:15px;font-weight:600;
+    text-decoration:none;transition:transform .12s ease,border-color .12s ease,background .12s ease;
+    border:1px solid var(--line);color:var(--fg);background:rgba(255,255,255,.035);
+  }
+  .btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.24);background:rgba(255,255,255,.06)}
+  .btn.primary{background:var(--red);border-color:var(--red);color:#fff}
+  .btn.primary:hover{background:#f05257;border-color:#f05257}
+
+  .shot{
+    margin:56px 0 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    box-shadow:0 32px 80px rgba(0,0,0,.55);
+  }
+  .shot img{display:block;width:100%;height:auto}
+
+  /* ---------- sections ---------- */
+  section{padding:76px 0}
+  .sec-h{display:flex;align-items:baseline;gap:14px;margin-bottom:34px}
+  .sec-h h2{font-size:clamp(22px,3.2vw,29px);font-weight:700;letter-spacing:-.01em}
+  .sec-h .n{font-family:var(--mono);font-size:13px;color:var(--dim)}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:24px;
+  }
+  .card .t{font-size:16px;font-weight:650;color:#fff;display:flex;align-items:center;gap:9px}
+  .card .t .dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex:0 0 auto}
+  .card .b{margin-top:11px;font-size:14px;color:var(--mut);line-height:1.72}
+
+  .honest{background:linear-gradient(180deg,rgba(229,72,77,.055),transparent);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .honest .lead{font-size:clamp(17px,2.3vw,21px);color:#e6edf3;max-width:800px;line-height:1.72}
+  .honest .lead b{color:var(--red)}
+  .facts{margin-top:32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+  .fact{border-left:2px solid rgba(229,72,77,.45);padding:4px 0 4px 16px}
+  .fact .k{font-size:12.5px;color:var(--dim);letter-spacing:.02em}
+  .fact .v{font-family:var(--mono);font-size:22px;font-weight:700;margin-top:5px}
+  .fact .v.neg{color:var(--grn)} .fact .v.pos{color:var(--red)}
+  .fact .n{font-size:13px;color:var(--mut);margin-top:3px}
+  .honest figure{margin-top:38px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .honest figure img{display:block;width:100%;height:auto}
+
+  pre{
+    margin-top:22px;background:#080c10;border:1px solid var(--line);border-radius:10px;
+    padding:20px 22px;overflow-x:auto;
+    font-family:var(--mono);font-size:13.5px;line-height:1.85;color:#c9d1d9;
+  }
+  pre .c{color:#6e7681} pre .g{color:var(--grn)} pre .y{color:#e3b341}
+
+  footer{padding:56px 0 72px;border-top:1px solid var(--line);color:var(--dim);font-size:13.5px}
+  footer .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+  footer a{color:var(--mut);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.15)}
+  footer a:hover{color:#fff;border-color:#fff}
+  .warn{max-width:560px;line-height:1.8}
+  .warn b{color:#c9a227}
+  @media (max-width:640px){
+    header{padding:56px 0 40px}
+    section{padding:56px 0}
+    h1 .cursor{height:34px;width:8px;margin-left:9px}
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div class="wrap">
+  <header>
+    <div class="kicker"><span class="d"></span>A 股缠论 V5.1 · Python · MIT</div>
+    <h1>chanlun-v051<span class="cursor"></span></h1>
+    <p class="lede">
+      把缠论买卖点机械化，跑在 A 股关注池上 ——
+      <b><span class="u">可复现</span>、<span class="u">无前视</span></b>、纸面记账、证据公开。<br>
+      30 分钟线段引擎 ＋ 完整交易系统 ＋ 实时回测工具箱，也是一个可被 AI 助手加载的 <b>Agent Skill</b>。
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/lbh-banboo/chanlun-v051">GitHub 仓库</a>
+      <a class="btn" href="#honest">先看回测证据</a>
+      <a class="btn" href="https://github.com/lbh-banboo/chanlun-v051/releases">Releases</a>
+    </div>
+    <div class="shot">
+      <img src="./assets/scan-output.png" alt="自检全部通过，随后运行一次扫描的真实终端输出">
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-h"><span class="n">01</span><h2>它到底做什么</h2></div>
+    <div class="cards">
+      <div class="card">
+        <div class="t"><span class="dot"></span>无前视的缠论引擎</div>
+        <div class="b">分型 → 笔 → 线段 → 中枢 → 一买/二买/三买/三卖/趋势一卖。数据截断到任意时刻重算，已发出的信号必须与全量完全一致 —— 0 差异。</div>
+      </div>
+      <div class="card">
+        <div class="t"><span class="dot"></span>八道入场闸门</div>
+        <div class="b">买点只是候选。真正下单要过资金可交易性、带宽、单票/总仓/主题簇上限等闸门；被拦下的信号全部记录原因。</div>
+      </div>
+      <div class="card">
+        <div class="t"><span class="dot"></span>纸面记账，不下真单</div>
+        <div class="b">没有券商接口。真实下单系数为 0，所有成交都是账本条目，可逐笔复算、对账、任意回溯重放。</div>
+      </div>
+      <div class="card">
+        <div class="t"><span class="dot"></span>Agent Skill</div>
+        <div class="b">遵循 Agent Skills 规范，装进 Claude Code / 桌面版后可以直接问「三买怎么定义」「今天有没有新买点」。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="honest" id="honest">
+    <div class="wrap" style="padding:0">
+      <div class="sec-h"><span class="n">02</span><h2>诚实的边界</h2></div>
+      <p class="lead">
+        <b>优势来自挑票，不来自买点。</b>
+        同一套规则、同一段历史，只换股票来源，逐笔平均 R 从正翻负。
+        这个仓库的价值在于规则可复现、没有前视、风控清晰、验证方法诚实 —— <b>不在于它能赚钱</b>。
+      </p>
+      <div class="facts">
+        <div class="fact">
+          <div class="k">人工挑出的关注池 · 403 笔</div>
+          <div class="v pos">+0.62R</div>
+          <div class="n">事后挑出的强势票</div>
+        </div>
+        <div class="fact">
+          <div class="k">没挑过的全市场 · 13,495 笔</div>
+          <div class="v neg">−0.116R</div>
+          <div class="n">候选信号本身不赚钱</div>
+        </div>
+        <div class="fact">
+          <div class="k">关注池年化 · 64 只</div>
+          <div class="v">7.4%</div>
+          <div class="n">回撤 −15.7% · 胜率 23%</div>
+        </div>
+        <div class="fact">
+          <div class="k">同期等权买入持有</div>
+          <div class="v pos">≈23.8%</div>
+          <div class="n">大幅跑输，不辩解</div>
+        </div>
+      </div>
+      <figure>
+        <img src="./assets/backtest-evidence.png" alt="回测证据：挑池 +0.62R 对比全市场 −0.116R">
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="n">03</span><h2>2 分钟自检</h2></div>
+    <p style="color:var(--mut);font-size:15px">不需要任何行情数据，clone 下来就能跑。买点算得对不对先不谈，先确认它至少没前视、没算错。</p>
+    <pre><span class="c">$</span> git clone https://github.com/lbh-banboo/chanlun-v051.git
+<span class="c">$</span> cd chanlun-v051
+<span class="c">$</span> pip install pandas numpy
+<span class="c">$</span> python3 tests/run_all.py --fast
+
+<span class="c">[1/5]</span> 语法：37 个 .py，全部通过
+<span class="c">[2/5]</span> 引擎截断 + 黄金快照：<span class="g">通过</span>　截断重算与全量结果 0 差异
+<span class="c">[3/5]</span> 引擎边界用例：<span class="g">通过</span>
+<span class="c">[4/5]</span> TRIN 插件：<span class="g">通过</span>　213 项断言
+<span class="c">[5/5]</span> 仓库自检：<span class="g">通过</span>
+<span class="g">全部通过</span></pre>
+  </section>
+
+  <footer>
+    <div class="wrap" style="padding:0">
+      <div class="row">
+        <div class="warn">
+          <b>仅供研究，不构成投资建议。</b><br>
+          所有成交都是纸面记账，没有券商接口，不会下真单。回测数据来自历史模拟，
+          不代表未来收益。截图来自合成市场，仅用于验证接口与账本不变量。
+        </div>
+        <div style="text-align:right;line-height:2">
+          <a href="https://github.com/lbh-banboo/chanlun-v051">仓库</a> ·
+          <a href="https://github.com/lbh-banboo/chanlun-v051/blob/main/README.md">README</a> ·
+          <a href="https://github.com/lbh-banboo/chanlun-v051/blob/main/DISCLAIMER.md">免责声明</a><br>
+          <span style="font-family:var(--mono);font-size:12.5px">MIT License · Python 3.9+</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
