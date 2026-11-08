@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lbh-banboo.github.io/chanlun-v051/sitemap.xml

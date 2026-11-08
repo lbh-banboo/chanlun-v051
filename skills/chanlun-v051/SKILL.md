@@ -4,7 +4,7 @@ description: A 股「稳健波段」V5.1 缠论交易系统的实时回测与研
 license: MIT
 compatibility: 需要 Python 3.9+ 与 pandas、numpy；可联网访问新浪/东财/搜狐行情与 baostock（30 分钟历史）；质地榜取数需东方财富妙想 API 密钥（可选）。定时任务模板面向能执行本机脚本的助手（如 Claude 桌面版定时任务），也可改用系统 cron。
 metadata:
-  version: "1.0.1"
+  version: "1.0.2"
   market: "A-share"
   language: "zh-CN"
   upstream-manual: "稳健波段交易系统 V5.1（缠论买卖点交易流程）"

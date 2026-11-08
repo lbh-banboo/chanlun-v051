@@ -5,10 +5,12 @@
 
 > 任何会改变信号的改动都必须：先走预登记 → 更新 `tests/golden_engine_events.json` 并在此处写明理由 → 提升主版本号。
 
-## [Unreleased]
+## [1.0.2] — 2026-11-08
 
-**不改变交易规则、引擎行为或任何信号**（修订版本）。本次只改展示层：README 结构与配图、
-架构图、社交预览图、LICENSE 识别。`.skill` 的功能与内容不变。
+对应 GitHub Release `v1.0.2`。**不改变交易规则、引擎行为或任何信号**（修订版本）。
+本次只改展示层与仓库设置：README 结构与配图、架构图、社交预览图、GitHub Pages 落地页、
+CI 状态徽章、SEO 元数据、LICENSE 识别。`.skill` 的功能与内容不变，
+仅 `SKILL.md` 的 `metadata.version` 与 `plugin.json` 的 `version` 对齐到 `1.0.2`。
 
 ### 变更
 
@@ -20,6 +22,15 @@
 - **新增「2 分钟自检」**：不需要任何行情数据，clone 下来就能跑出首屏那张图的内容。
 - **新增 Mermaid 架构图**：README 的系统主干图、`docs/architecture.md` 的模块依赖图。
   原文的 ASCII 数据流图保留在架构文档中。
+- **新增 GitHub Pages 落地页**：`docs/index.html`（单文件，无外部依赖）+ `docs/.nojekyll`，
+  homepage 指向 `https://lbh-banboo.github.io/chanlun-v051/`。仓库设置同步补齐
+  topics、Discussions、social preview 图。
+- **真实 CI 状态徽章**：中英 README 首屏挂上 `actions/workflows/ci.yml` 的实时状态，
+  原先 4 个静态 shields 保留为信息标签，不再让人误以为「测试绿」是自贴的。
+- **Pages SEO**：补 `og:url` / `og:type` / `og:site_name` / `og:image` 宽高 / canonical /
+  `twitter:card` 系列 / `theme-color`；新增 `docs/sitemap.xml` 与 `docs/robots.txt`。
+  ⚠️ GitHub Pages 项目站的 `robots.txt` 放在子路径下，爬虫通常只读根域那份，
+  所以索引主要靠显式提交 sitemap，不把子路径 robots.txt 当成保障。
 
 ### 修复
 

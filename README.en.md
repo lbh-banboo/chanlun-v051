@@ -9,6 +9,7 @@ It is also an **Agent Skill** an AI assistant can load directly.
 
 [中文](README.md) · [English](README.en.md) · [Disclaimer](DISCLAIMER.md) · [Changelog](CHANGELOG.md) · [Architecture](docs/architecture.md)
 
+[![CI](https://github.com/lbh-banboo/chanlun-v051/actions/workflows/ci.yml/badge.svg)](https://github.com/lbh-banboo/chanlun-v051/actions/workflows/ci.yml)
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![python](https://img.shields.io/badge/python-3.9%2B%20(CI)%20%C2%B7%203.10%20verified-blue)
 ![tests](https://img.shields.io/badge/tests-offline%20%C2%B7%20synthetic-brightgreen)
