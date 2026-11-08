@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1280px; height:640px; overflow:hidden; }
+  body {
+    background:#0b1015;
+    font-family:-apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    color:#e6edf3;
+    position:relative;
+  }
+  /* 背景网格 */
+  .grid {
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:40px 40px;
+  }
+  /* 背景光晕 */
+  .glow-a {
+    position:absolute; width:760px; height:760px; right:-260px; top:-320px;
+    background:radial-gradient(circle, rgba(229,72,77,.20) 0%, rgba(229,72,77,0) 62%);
+  }
+  .glow-b {
+    position:absolute; width:620px; height:620px; left:-240px; bottom:-340px;
+    background:radial-gradient(circle, rgba(56,139,253,.16) 0%, rgba(56,139,253,0) 66%);
+  }
+  /* 背景价格折线 */
+  .chart { position:absolute; right:0; bottom:0; width:820px; opacity:.22; }
+  /* 底部暗色遮罩，压住折线保证文字可读 */
+  .fade {
+    position:absolute; left:0; right:0; bottom:0; height:190px;
+    background:linear-gradient(to top, #0b1015 34%, rgba(11,16,21,.92) 58%, rgba(11,16,21,0) 100%);
+  }
+
+  .wrap { position:absolute; inset:0; padding:56px 68px; display:flex; flex-direction:column; }
+
+  .topbar { display:flex; align-items:center; gap:14px; margin-bottom:44px; }
+  .dot { width:11px; height:11px; border-radius:50%; background:#e5484d; box-shadow:0 0 0 4px rgba(229,72,77,.16); }
+  .repo { font-family:"SF Mono", ui-monospace, Menlo, monospace; font-size:17px; color:#8b949e; letter-spacing:.02em; }
+  .repo b { color:#e6edf3; font-weight:600; }
+  .badge-lang { margin-left:auto; display:flex; align-items:center; gap:7px; font-size:15px; color:#8b949e; }
+  .lang-dot { width:11px; height:11px; border-radius:50%; background:#3572A5; }
+
+  h1 {
+    font-family:"SF Mono", ui-monospace, Menlo, monospace;
+    font-size:86px; font-weight:700; letter-spacing:-.035em; line-height:1;
+    color:#fff;
+  }
+  h1 .ver { display:inline-block; width:14px; height:72px; margin-left:20px; background:#e5484d; vertical-align:-9px; border-radius:1px; }
+
+  .sub {
+    margin-top:22px; font-size:29px; font-weight:500; color:#c9d1d9; letter-spacing:.01em;
+    line-height:1.42; max-width:920px;
+  }
+  .sub em { font-style:normal; color:#fff; font-weight:600; border-bottom:3px solid rgba(229,72,77,.55); padding-bottom:2px; }
+
+  .chips { margin-top:42px; display:flex; gap:12px; flex-wrap:wrap; }
+  .chip {
+    padding:11px 20px; border-radius:999px; font-size:17px; font-weight:500;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.11);
+    color:#c9d1d9;
+  }
+  .chip.hi { background:rgba(229,72,77,.13); border-color:rgba(229,72,77,.42); color:#ff9b9e; }
+
+  .footer {
+    margin-top:auto; display:flex; align-items:flex-end; justify-content:space-between;
+    padding-top:28px; border-top:1px solid rgba(255,255,255,.08);
+  }
+  .url { font-family:"SF Mono", ui-monospace, Menlo, monospace; font-size:19px; color:#a9b1ba; }
+  .meta { display:flex; gap:26px; font-size:16px; color:#9aa4ae; }
+  .meta span b { color:#e6edf3; font-weight:600; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="glow-a"></div>
+  <div class="glow-b"></div>
+
+  <svg class="chart" viewBox="0 0 820 340" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="lg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e5484d" stop-opacity=".30"/>
+        <stop offset="100%" stop-color="#e5484d" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,250 L55,232 L92,262 L140,205 L186,226 L232,168 L268,196 L312,140 L356,172 L402,118 L446,148 L492,96 L536,130 L582,88 L626,116 L672,72 L718,102 L764,58 L820,84 L820,340 L0,340 Z" fill="url(#lg)"/>
+    <path d="M0,250 L55,232 L92,262 L140,205 L186,226 L232,168 L268,196 L312,140 L356,172 L402,118 L446,148 L492,96 L536,130 L582,88 L626,116 L672,72 L718,102 L764,58 L820,84"
+          fill="none" stroke="#e5484d" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" opacity=".85"/>
+  </svg>
+
+  <div class="fade"></div>
+
+  <div class="fade"></div>
+
+  <div class="wrap">
+    <div class="topbar">
+      <div class="dot"></div>
+      <div class="repo">lbh-banboo / <b>chanlun-v051</b></div>
+      <div class="badge-lang"><span class="lang-dot"></span>Python</div>
+    </div>
+
+    <h1>chanlun-v051<span class="ver"></span></h1>
+
+    <div class="sub">A 股缠论 V5.1 —— <em>可复现、无前视</em>的 30 分钟买卖点引擎<br>＋ 实时纸面回测工具箱，也是一个可被 AI 助手加载的 <em>Agent Skill</em></div>
+
+    <div class="chips">
+      <div class="chip">分型 → 笔 → 线段 → 中枢</div>
+      <div class="chip">八道入场闸门</div>
+      <div class="chip">纸面记账 · 不下真单</div>
+      <div class="chip hi">Agent Skill</div>
+      <div class="chip">回测证据公开</div>
+    </div>
+
+    <div class="footer">
+      <div class="url">github.com/lbh-banboo/chanlun-v051</div>
+      <div class="meta">
+        <span><b>MIT</b> License</span>
+        <span><b>Python</b> 3.9+</span>
+        <span>仅供研究 · 不构成投资建议</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
