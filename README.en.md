@@ -2,25 +2,41 @@
 
 # chanlun-v051
 
-**A-share Chan-theory (缠论) V5.1: live paper-trading · stock screening · scheduled tasks · data upkeep · backtest evidence**
+**Mechanises Chan-theory (缠论) buy/sell points on an A-share watchlist — reproducible, look-ahead-free, paper-ledger only, evidence published.**
 
-A **research and simulation toolkit** that mechanises Chan-theory entry/exit points on a hand-picked A-share watchlist — and an **Agent Skill** an AI assistant can load.
+A 30-minute *segment* engine (fractal → stroke → segment → pivot → entries) plus a complete trading system and a live paper-trading toolkit.<br>
+It is also an **Agent Skill** an AI assistant can load directly.
 
-[中文](README.md) · [English](README.en.md) · [Disclaimer](DISCLAIMER.md) · [Changelog](CHANGELOG.md)
+[中文](README.md) · [English](README.en.md) · [Disclaimer](DISCLAIMER.md) · [Changelog](CHANGELOG.md) · [Architecture](docs/architecture.md)
 
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![python](https://img.shields.io/badge/python-3.9%2B%20(CI)%20%C2%B7%203.10%20verified-blue)
+![tests](https://img.shields.io/badge/tests-offline%20%C2%B7%20synthetic-brightgreen)
 ![status](https://img.shields.io/badge/status-paper%20trading%20only-orange)
 
 </div>
 
-> **Docs are primarily in Chinese** (the strategy, data sources and terminology are China A-share specific). This page is a concise English guide; `skills/chanlun-v051/references/` holds the full detail.
+![Self-tests all green, then a scan run](docs/assets/scan-output.png)
 
-> ## ⚠️ Read this first
->
-> - **Not investment advice. No automatic order placement.** Every fill is a paper-ledger entry; the live "real-money coefficient" is **0**. See [DISCLAIMER.md](DISCLAIMER.md).
-> - **The evidence does *not* show that the entry signals themselves have an edge.** On the hand-picked watchlist the rules return ≈7 % annualised with a ≈ −16 % max drawdown; on **un-picked** stocks the candidate signals average **−0.12 R per trade**. Returns are concentrated in two calendar years and nearly vanish once the few biggest winners are removed. **The edge comes mainly from picking the stocks, not from the entries.** What this repo offers is reproducibility, no look-ahead, clear risk controls and honest validation — **not profitability**. See [`references/08-backtest-evidence.md`](skills/chanlun-v051/references/08-backtest-evidence.md).
-> - Sample stock names, codes, prices and account figures in the docs are **placeholders**; backtest statistics come from historical market simulations (see `references/08-backtest-evidence.md`).
+*(CLI output is in Chinese — the tools are built for China A-share data. The screenshot shows the real, unedited output of the two commands below, run against a synthetic market.)*
+
+> **Research only. Not investment advice. No brokerage integration — every fill is a paper-ledger entry.**
+> The evidence does **not** support "the entry signals themselves have an edge". What this repo offers is
+> reproducibility, no look-ahead, clear risk controls and honest validation — **not profitability**.
+> Full evidence and limitations: [**The honest boundary**](#the-honest-boundary) and [`references/08`](skills/chanlun-v051/references/08-backtest-evidence.md).
+
+## 2-minute self-check (offline, no market data needed)
+
+```bash
+git clone https://github.com/lbh-banboo/chanlun-v051.git && cd chanlun-v051
+pip install pandas numpy
+
+python3 tests/run_all.py --fast     # ~2 min, fully offline
+```
+
+You should see what the screenshot above shows: 37 `.py` files compile, truncate-and-recompute shows **0 differences**,
+the TRIN plug-in passes 213 assertions, and the repo-hygiene scan (links / secrets / frontmatter) is green.
+**Whether the entries make money is a separate question — first confirm it at least does not cheat and cannot silently drift.**
 
 ## What's inside
 
@@ -35,36 +51,28 @@ A **research and simulation toolkit** that mechanises Chan-theory entry/exit poi
 | **Honest backtest evidence** | Before/after engine-fix comparison, random baskets, full-market control, concentration, acceptance gates, evidence review of the regime rule |
 | **Post-mortems** | 16 real incidents/pitfalls: symptom → root cause → fix → how to avoid |
 
-## Quick start
+## How it fits together
 
-```bash
-git clone https://github.com/lbh-banboo/chanlun-v051.git && cd chanlun-v051
-pip install pandas numpy                  # + baostock if you download 30-min history
-python3 tests/run_all.py                  # offline self-tests (~30 s) — run this first
-
-export V51_HOME=~/a-share-v51
-S=skills/chanlun-v051/scripts
-python3 $S/init_workspace.py --home $V51_HOME --nav 200000
-# then follow references/04-setup-and-data.md: daily bars → 30-min history (+ `m30_data.py check`) → pool file → regime → first scan
-python3 $S/pool_tool.py check             # pool file must report 0 errors
-python3 $S/regime_daily.py --history
-python3 $S/v51_scan.py                    # NEW_SIGNAL / PENDING / FILL lines
+```mermaid
+flowchart TD
+    S["Quote sources<br/>Sina · EastMoney · Sohu · baostock"]
+    S --> D1["daily_update.py<br/>daily bars · two guards"]
+    S --> D2["m30_data.py / _fetch.py<br/>30-min history + live patch"]
+    D1 --> DB1[("daily store")]
+    D1 --> R["regime_daily.py<br/>4 market regimes<br/>exposure cap · risk multiplier"]
+    D2 --> DB2[("30-min bars")]
+    DB2 --> E["Engine S<br/>inclusion → fractal → stroke → segment → pivot<br/>1st/2nd/3rd buy · 3rd sell · trend 1st sell"]
+    E --> G["8 entry gates"]
+    R --> G
+    G --> P["Risk-budget sizing<br/>NAV × 0.75% × regime ÷ (entry − stop)<br/>per-name / total / 30% cluster / 20 names"]
+    P --> L[("paper ledger<br/>fill = next bar open ±10bp")]
+    L --> O["daily report · next-day pending orders<br/>stdout: NEW_SIGNAL / PENDING / FILL"]
+    DB1 -.-> PW["pool_watch.py<br/>who is close to an entry (read-only)"]
+    DB2 -.-> PW
 ```
 
-**No market data is bundled.** You must supply daily bars (format documented) and can download 30-minute history through baostock with `m30_data.py`.
-
-## Use as an Agent Skill
-
-`skills/chanlun-v051/` follows the [Agent Skills](https://agentskills.io/specification) layout (`SKILL.md` + `references/` + `scripts/` + `assets/`).
-
-| Platform | Install |
-|---|---|
-| Claude Code (user) | `cp -r skills/chanlun-v051 ~/.claude/skills/` |
-| Claude Code (project) | `cp -r skills/chanlun-v051 <project>/.claude/skills/` |
-| Claude Code plugin | `/plugin marketplace add lbh-banboo/chanlun-v051` then `/plugin install chanlun-v051@chanlun-v051` |
-| Claude Desktop / claude.ai | upload the packaged `chanlun-v051.skill` (see below) |
-
-`SKILL.md` routes requests to the right chapter and carries ten non-negotiable rules: rules are frozen during the live test; numbers come only from script output; no investment advice; ask before editing the manual or engine; etc.
+> Every "gate" traces back to a real incident or a backtest finding — none are decorative.
+> Why it is shaped this way: [docs/architecture.md](docs/architecture.md).
 
 ## Core rules (summary)
 
@@ -79,9 +87,70 @@ python3 $S/v51_scan.py                    # NEW_SIGNAL / PENDING / FILL lines
 | Regimes | Healthy 70 % · Hot 50 % · Repair 40 % · Ebb 20 % · Hard 0 % (no new entries) |
 | Breakers | 5 straight losses → pause 5 days; 10 % drawdown → pause new entries; 12 % → freeze; unit NAV ≤ 0.70 → retire |
 
+## Running it for real
+
+**No market data is bundled** — it is large, and it is your data anyway.
+
+```bash
+export V51_HOME=~/a-share-v51
+S=skills/chanlun-v051/scripts
+python3 $S/init_workspace.py --home $V51_HOME --nav 200000
+```
+
+Then follow [`references/04-setup-and-data.md`](skills/chanlun-v051/references/04-setup-and-data.md) in order:
+**daily bars → 30-min history (+ `m30_data.py check`) → pool file → regime → first scan**. Each step documents how to verify itself.
+
+```bash
+python3 $S/pool_tool.py check             # pool file must report 0 errors
+python3 $S/regime_daily.py --history      # close-of-day regime
+python3 $S/v51_scan.py                    # live scan + paper ledger
+python3 $S/pool_watch.py                  # read-only: who is close to an entry
+```
+
+## The honest boundary
+
+![Backtest evidence: the edge comes from stock picking, not from the entries](docs/assets/backtest-evidence.png)
+
+**The edge of these rules comes mainly from *which stocks you pick*, not from the entry points.**
+
+- **Un-picked, full-market candidates**: 13,495 trades averaging **−0.116 R per trade** (95 % interval −0.17 to −0.05).
+- **Hand-picked watchlist**: 403 trades at **+0.62 R**. Random 64-name baskets median −0.7 % to +1.1 % annualised, while the watchlist sits at the **98th–100th percentile**. The watchlist was picked **in hindsight** — a large part of the pretty backtest numbers is that.
+- **Same-account basis**: watchlist 64 names → 7.4 % annualised, −15.7 % max drawdown, 23 % win rate. Equal-weight buy-and-hold on the same names over a comparable window: ≈23.8 % (drawdown −38 %). **It badly lags buy-and-hold.**
+- **Returns ride on a few long trends**: win rate 23–25 %, median trade ≈ −1.06 R. Remove the best 3 trades and the watchlist account drops from ≈+58 % to ≈+6 %.
+- **The market-regime rule is the one solid finding**: without it, −5.2 % annualised / −40.1 % drawdown; with it, +7.9 % / −27.0 % (256-name basis, post-fix). **If you use these entries, you must also size by regime.**
+- By year, the return concentrates in **2023 (+22.8 %)** and **2025 (+36.9 %)**; other years are roughly flat.
+
+Full tables, methodology, limitations — including *which claims were falsified along the way* — are in
+[`references/08-backtest-evidence.md`](skills/chanlun-v051/references/08-backtest-evidence.md).
+
+> Sample stock names, codes, prices and account figures in the docs are **placeholders** and correspond to no real
+> position. The only screenshots in this repo come from a **synthetic market** (60 random walks plus a few engineered
+> structures) and exist to prove the plumbing and ledger invariants — **not real quotes, not real returns**.
+
+## Use as an Agent Skill
+
+`skills/chanlun-v051/` follows the [Agent Skills](https://agentskills.io/specification) layout (`SKILL.md` + `references/` + `scripts/` + `assets/`).
+
+| Platform | Install |
+|---|---|
+| Claude Code (user) | `cp -r skills/chanlun-v051 ~/.claude/skills/` |
+| Claude Code (project) | `cp -r skills/chanlun-v051 <project>/.claude/skills/` |
+| Claude Code plugin | `/plugin marketplace add lbh-banboo/chanlun-v051` then `/plugin install chanlun-v051@chanlun-v051` |
+| Claude Desktop / claude.ai | upload the packaged `chanlun-v051.skill` (see below) |
+| Any agent that reads SKILL.md | drop `skills/chanlun-v051/` into its skills directory |
+
+`SKILL.md` routes requests to the right chapter and carries ten non-negotiable rules: rules are frozen during the live test; numbers come only from script output; no investment advice; ask before editing the manual or engine; etc.
+
+## Packaging as `.skill`
+
+```bash
+cd skills && zip -r ../chanlun-v051.skill chanlun-v051 -x '*/__pycache__/*' '*.pyc'
+```
+
 ## Tests
 
 `python3 tests/run_all.py` runs, offline and on synthetic data: look-ahead (truncate-and-recompute) + golden snapshot of 40 fixed-seed series; exact-boundary cases (e.g. 3rd-buy pull-back low ≥ ZG, *including equal*); the TRIN plug-in (213 assertions); an end-to-end synthetic market (ledger invariants: NAV identity, cash reconstructable from fills, lot sizes, per-trade risk cap; determinism; pool-entry-time filtering); and a repository hygiene check (SKILL.md spec, links, **secret/PII scan**, placeholders).
+
 The tests were themselves validated by **mutation testing**: 19 deliberate breakages of the engine/constants were all caught (plus one provably equivalent mutant); 19 injected leaks were all caught by the hygiene scan.
 
 ## Known limitations

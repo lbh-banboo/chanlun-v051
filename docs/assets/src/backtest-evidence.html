@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1200px; height:520px; overflow:hidden; }
+  body {
+    background:#0b1015;
+    font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;
+    color:#e6edf3; position:relative;
+  }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+    background-size:40px 40px; }
+  .wrap { position:relative; padding:44px 56px; height:100%; display:flex; flex-direction:column; }
+
+  .kicker { font-family:"SF Mono",ui-monospace,Menlo,monospace; font-size:13px; letter-spacing:.14em;
+            color:#6e7681; text-transform:uppercase; }
+  h2 { font-size:33px; font-weight:700; letter-spacing:-.01em; margin-top:10px; }
+  h2 .neg { color:#e5484d; }
+  .lede { font-size:16px; color:#8b949e; margin-top:9px; }
+
+  .chart { margin-top:38px; }
+  .row { display:flex; align-items:center; height:82px; }
+  .lbl { width:330px; flex:0 0 330px; }
+  .lbl .t { font-size:17px; font-weight:600; color:#e6edf3; }
+  .lbl .s { font-size:13px; color:#6e7681; margin-top:3px; font-family:"SF Mono",monospace; }
+
+  .track { flex:1; position:relative; height:44px; }
+  .axis { position:absolute; left:398px; top:-8px; bottom:-8px; width:1px; background:rgba(255,255,255,.16); }
+  .bar { position:absolute; top:14px; height:30px; border-radius:4px; }
+  .bar.pos { background:linear-gradient(90deg,rgba(229,72,77,.85),rgba(229,72,77,.55)); }
+  .bar.neg { background:linear-gradient(270deg,rgba(63,185,80,.85),rgba(63,185,80,.55)); }
+  .val { position:absolute; top:15px; font-family:"SF Mono",monospace; font-size:17px; font-weight:600; white-space:nowrap; }
+  .val.after { padding-left:14px; }
+  .val.before { transform:translateX(-100%); padding-right:14px; }
+
+  .foot { margin-top:auto; border-top:1px solid rgba(255,255,255,.09); padding-top:20px;
+          display:flex; align-items:flex-start; gap:40px; }
+  .fin { display:flex; gap:44px; }
+  .fin .item .k { font-size:12.5px; color:#6e7681; letter-spacing:.03em; }
+  .fin .item .v { font-size:19px; font-weight:700; font-family:"SF Mono",monospace; margin-top:4px; }
+  .fin .item .v.r { color:#e5484d; } .fin .item .v.g { color:#3fb950; }
+  .src { margin-left:auto; font-size:12.5px; color:#586069; text-align:right; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="wrap">
+  <div class="kicker">Backtest evidence · 2020-07 → 2026-09</div>
+  <h2>优势来自<span class="neg">挑票</span>，不来自买点</h2>
+  <div class="lede">同一套规则、同一段历史，只换股票来源，逐笔平均 R 从正翻负。</div>
+
+  <div class="chart">
+    <!-- 关注池 -->
+    <div class="row">
+      <div class="lbl">
+        <div class="t">人工挑出的关注池</div>
+        <div class="s">403 笔</div>
+      </div>
+      <div class="track">
+        <div class="axis"></div>
+        <div class="bar pos" style="left:398px; width:300px;"></div>
+        <div class="val after" style="left:698px; color:#ff9b9e;">+0.62R</div>
+      </div>
+    </div>
+
+    <!-- 全市场 -->
+    <div class="row">
+      <div class="lbl">
+        <div class="t">没挑过的全市场候选</div>
+        <div class="s">13,495 笔</div>
+      </div>
+      <div class="track">
+        <div class="axis"></div>
+        <div class="bar neg" style="left:342px; width:56px;"></div>
+        <div class="val before" style="left:342px; color:#7ee787;">−0.116R</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="fin">
+      <div class="item"><div class="k">随机 64 只篮子 · 年化中位</div><div class="v">−0.7% ~ +1.1%</div></div>
+      <div class="item"><div class="k">关注池年化所处分位</div><div class="v r">98 – 100%</div></div>
+      <div class="item"><div class="k">不接档位 → 接档位 · 256 只</div><div class="v"><span class="g">−5.2%</span> → <span class="r">+7.9%</span></div></div>
+    </div>
+    <div class="src">
+      数据：skills/chanlun-v051/references/08-backtest-evidence.md<br>
+      历史模拟，非未来收益 · 不构成投资建议
+    </div>
+  </div>
+</div>
+</body>
+</html>

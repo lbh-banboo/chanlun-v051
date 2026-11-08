@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1200px; height:660px; overflow:hidden; }
+  body {
+    background:#0a0d11;
+    font-family:"SF Mono", ui-monospace, Menlo, monospace;
+    display:flex; align-items:flex-start; justify-content:center; padding-top:16px;
+  }
+  .win {
+    width:1120px; border-radius:12px; overflow:hidden;
+    background:#0d1117;
+    border:1px solid #21262d;
+    box-shadow:0 24px 64px rgba(0,0,0,.6);
+  }
+  .bar {
+    height:46px; background:#161b22; border-bottom:1px solid #21262d;
+    display:flex; align-items:center; padding:0 18px; gap:9px;
+  }
+  .dot { width:12px; height:12px; border-radius:50%; }
+  .r{background:#ff5f57;} .y{background:#febc2e;} .g{background:#28c840;}
+  .title { margin-left:14px; font-size:14px; color:#8b949e; letter-spacing:.02em; }
+  .tag {
+    margin-left:auto; font-size:12.5px; font-weight:600;
+    color:#f0b429; background:rgba(240,180,41,.12);
+    border:1px solid rgba(240,180,41,.4); border-radius:5px;
+    padding:5px 11px; letter-spacing:.03em;
+  }
+  .body { padding:26px 30px 30px; font-size:16.5px; line-height:1.72; }
+  .ln { white-space:pre; }
+  .cmd { color:#e6edf3; }
+  .prompt { color:#3fb950; }
+  .dim { color:#6e7681; }
+  .ok { color:#3fb950; }
+  .cy { color:#79c0ff; }
+  .wh { color:#e6edf3; }
+  .warn { color:#ffa657; }
+  .gap { height:20px; }
+  .note {
+    margin-top:22px; padding:12px 16px; border-radius:7px;
+    background:rgba(240,180,41,.07); border-left:3px solid rgba(240,180,41,.55);
+    font-size:14px; color:#c9a227; line-height:1.6; font-family:-apple-system,"PingFang SC",sans-serif;
+  }
+  .note b { color:#f0b429; }
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="bar">
+    <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    <div class="title">zsh — chanlun-v051</div>
+    <div class="tag">SYNTHETIC DATA · 合成市场示例</div>
+  </div>
+  <div class="body">
+    <div class="ln cmd"><span class="prompt">❯</span> python3 tests/run_all.py --fast</div>
+    <div class="ln dim">[1/5] 语法：37 个 .py，全部通过（0.4s）</div>
+    <div class="ln dim">[2/5] 引擎截断 + 黄金快照：<span class="ok">通过</span>（4.2s）</div>
+    <div class="ln dim">      通过：所有截断重算与全量结果 <span class="wh">0 差异</span>；确认序号均不早于结构极值；线段不卡死</div>
+    <div class="ln dim">[3/5] 引擎边界用例：<span class="ok">通过</span>（0.4s）</div>
+    <div class="ln dim">      通过：三买边界（含 ZG 恰好相等）、线段端点奇偶性与短线段规则、成笔间隔、包含处理方向</div>
+    <div class="ln dim">[4/5] TRIN 插件：<span class="ok">通过</span>（108.7s）　通过 <span class="wh">213</span> 项断言，失败 0 项</div>
+    <div class="ln dim">[5/5] 仓库自检（frontmatter / 链接 / 脱敏）：<span class="ok">通过</span>（3.5s）</div>
+    <div class="ln dim">      通过：frontmatter、链接、脚本引用、脱敏、占位符、示例数据、仓库卫生均符合要求</div>
+    <div class="ln ok">全部通过</div>
+
+    <div class="gap"></div>
+
+    <div class="ln cmd"><span class="prompt">❯</span> python3 $S/v51_scan.py</div>
+    <div class="ln cy">V51 扫描 11-04 15:02<span class="dim">｜</span>池<span class="wh">60</span>只<span class="dim">｜</span>最后K线 2026-11-04 1500<span class="dim">｜</span>取数 未联网 失败<span class="wh">0</span><span class="dim">｜</span>3.0s</div>
+    <div class="ln cy">今日新买点 <span class="warn">0</span><span class="dim">｜</span>待执行 <span class="warn">0</span><span class="dim">｜</span>今日成交 <span class="warn">0</span><span class="dim">｜</span>持仓 <span class="wh">4</span><span class="dim">｜</span>净值 <span class="wh">212297</span><span class="dim">｜</span>已平仓 <span class="wh">5</span></div>
+    <div class="ln dim">报告： ~/a-share-v51/live/reports/V51_latest.md</div>
+
+    <div class="note">
+      <b>合成市场跑出来的真实输出。</b>60 只随机游走 + 少量人工构筑结构的模拟股票，
+      用于验证"接口、账本不变量、确定性"，<b>不是真实行情，不代表任何真实收益</b>。
+      真实回测证据（含负面结论）见 <span style="color:#79c0ff">references/08</span>。
+    </div>
+  </div>
+</div>
+</body>
+</html>

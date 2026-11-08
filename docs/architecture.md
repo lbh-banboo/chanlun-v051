@@ -84,6 +84,42 @@ V5.1 规定"入池必须发生在信号之前"。实现：名单表的「加入�
 
 ## 3. 模块职责与依赖
 
+```mermaid
+flowchart TD
+    subgraph BASE["基础设施"]
+        P1["_paths.py<br/>工作区路径与配置（唯一入口）"]
+        P2["_common.py<br/>账户常量 · 池解析 · 档位读取"]
+        P3["_fetch.py<br/>30 分钟取数（新浪主 / 东财备）"]
+    end
+
+    subgraph ENGINE["引擎"]
+        E1["engine/lvl_engine.py<br/>包含处理 · 分型 · MACD"]
+        E2["engine/sop_engine.py<br/>笔事件流 · 线段 Walker · 中枢 · 背驰"]
+        E3["engine/sop_run.py<br/>run_series 逐根推进 → 事件流"]
+    end
+
+    subgraph APP["应用层"]
+        A1["v51_scan.py<br/>拼数据 · 重放账户 · 写账本与日报"]
+        A2["pool_watch.py<br/>只读遍历 · 临近买点"]
+        A3["regime_daily.py<br/>收盘档位 · 宽度 · 过热 · hard"]
+        A4["pool_tool.py<br/>池文件契约 · 加票 · 天花板 · 冷却期"]
+        A5["quality/*<br/>质地榜全链路"]
+    end
+
+    P1 --> P2
+    P2 --> A1
+    P2 --> A2
+    P2 --> A4
+    P3 --> A1
+    P3 --> A2
+    E1 --> E2
+    E2 --> E3
+    E3 --> A1
+    E3 --> A2
+    A3 --> A1
+    A4 --> A5
+```
+
 | 模块 | 职责 | 依赖 |
 |---|---|---|
 | `_paths.py` | 工作区路径、配置读取（唯一入口） | — |
